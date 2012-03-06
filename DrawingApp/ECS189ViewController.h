@@ -18,16 +18,19 @@
 @property (weak, nonatomic) IBOutlet UISwitch *dashedLineSelector;
 @property (weak, nonatomic) IBOutlet UIPickerView *colorPicker;
 @property (strong, nonatomic) NSMutableArray *pickerArray;
+@property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *shapeSelector;
 - (UIColor *)colorForRow:(NSInteger)row;
 - (void)drawShapes;
 - (void)drawShapesSubroutine:(myShape *)shapeToBeDrawn contextRef:(CGContextRef) context;
+
 //- (void)initPoints;
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
+- (void)selectShapeOnScreen:(CGPoint) tapPoint;
 - (void)setCurrentShapeProperties;
 - (IBAction)clearDrawingPad:(id)sender;
 - (IBAction)colorPickerButton:(id)sender;

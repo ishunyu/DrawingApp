@@ -11,6 +11,10 @@
 @interface myShape : NSObject
 -(id)init;
 -(id)initCopy:(myShape *)input;
+-(bool)pointContainedInShape:(CGPoint) point;
+-(bool)pointOnLine:(CGPoint) point;
+-(bool)pointContainedInCircle:(CGPoint) point;
+
 
 @property CGPoint startPoint;
 @property CGPoint endPoint;

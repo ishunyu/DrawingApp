@@ -19,6 +19,7 @@
 @synthesize dashedLineSelector = _dashedLineSelector;
 @synthesize colorPicker = _colorPicker;
 @synthesize pickerArray = _pickerArray;
+@synthesize debugLabel = _debugLabel;
 
 - (void)didReceiveMemoryWarning
 {
@@ -61,6 +62,7 @@
     [self setLineWidthSlider:nil];
     [self setDashedLineSelector:nil];
    // [self setColorPicker:nil];
+    [self setDebugLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -137,6 +139,8 @@
     
 }
 
+#pragma mark - drawing functions
+
 - (void)drawShapes {
     //NSLog(@"In drawShapes!");
     
@@ -146,9 +150,21 @@
     
     for(myShape *i in _collection) {
         [self drawShapesSubroutine:i contextRef:context];
+        if(i.selected == true) {
+            CGContextSetLineWidth(context, 1.0f);
+            CGContextSetStrokeColorWithColor(context, [[UIColor blackColor] CGColor]);
+            
+            CGRect rectangle = CGRectMake(i.startPoint.x - 5.0f,
+                                      i.startPoint.y - 5.0f,
+                                      i.endPoint.x - i.startPoint.x + 10.0f,
+                                      i.endPoint.y - i.startPoint.y + 10.0f);
+        
+            CGContextAddRect(context, rectangle);        
+            CGContextStrokePath(context);
+        }
     }
     
-     [self drawShapesSubroutine:_currentShape contextRef:context];
+     //[self drawShapesSubroutine:_currentShape contextRef:context];
     
     _drawingPad.image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
@@ -195,6 +211,8 @@
     }
 }
 
+#pragma mark - touch interface
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     //NSLog(@"In touchesBegan!");
     UITouch *touch = [touches anyObject];
@@ -220,12 +238,24 @@
     UITouch *touch = [touches anyObject];
     CGPoint tempPoint = [touch locationInView:_drawingPad];
     
-    // Setting properties
-    _currentShape.endPoint = CGPointMake(tempPoint.x, tempPoint.y);
-    [self setCurrentShapeProperties]; 
+    // Check to see if it's a tap
+    if(CGPointEqualToPoint(tempPoint, _currentShape.startPoint) == NO) {    // Drag
+        NSLog(@"You dragged!");
+        
+        // Setting properties
+        _currentShape.endPoint = CGPointMake(tempPoint.x, tempPoint.y);
+        [self setCurrentShapeProperties]; 
     
-    [self.collection addObject: [[myShape alloc] initCopy:_currentShape]];
-    [self drawShapes];   
+        [self.collection addObject: [[myShape alloc] initCopy:_currentShape]];
+        [self drawShapes];
+    }
+    else {  // Tap
+        [self selectShapeOnScreen:(CGPoint) tempPoint];
+        
+        for(myShape* i in _collection) {
+            i.selected = false;
+        }
+    }
 }
 
 - (void)setCurrentShapeProperties {
@@ -234,6 +264,22 @@
     _currentShape.isDashed = _dashedLineSelector.on;
     _currentShape.color = _currentColor;
 }
+
+#pragma mark - Working...
+
+- (void)selectShapeOnScreen:(CGPoint) tapPoint {
+    NSLog(@"You tapped!");
+    
+    for(myShape* i in [_collection reverseObjectEnumerator]) {
+        if([i pointContainedInShape:tapPoint]) {
+            i.selected = TRUE;
+            break;
+        }
+    }
+    
+    [self drawShapes];
+}
+
 
 - (IBAction)clearDrawingPad:(id)sender {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Clear All"
@@ -253,8 +299,6 @@
     else {
         _colorPicker.hidden = YES;
     }
-    
-    //[_drawingPad setNeedsDisplay];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
