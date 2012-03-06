@@ -1,0 +1,290 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CEB2444614E7BA5000A41818 /* myShape.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB2444514E7BA5000A41818 /* myShape.m */; };
+		CEB3DF0514E759620053BEF0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEB3DF0414E759620053BEF0 /* UIKit.framework */; };
+		CEB3DF0714E759620053BEF0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEB3DF0614E759620053BEF0 /* Foundation.framework */; };
+		CEB3DF0914E759620053BEF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEB3DF0814E759620053BEF0 /* CoreGraphics.framework */; };
+		CEB3DF0F14E759620053BEF0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEB3DF0D14E759620053BEF0 /* InfoPlist.strings */; };
+		CEB3DF1114E759620053BEF0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB3DF1014E759620053BEF0 /* main.m */; };
+		CEB3DF1514E759620053BEF0 /* ECS189AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB3DF1414E759620053BEF0 /* ECS189AppDelegate.m */; };
+		CEB3DF1814E759630053BEF0 /* ECS189ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB3DF1714E759630053BEF0 /* ECS189ViewController.m */; };
+		CEB3DF1B14E759630053BEF0 /* ECS189ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEB3DF1914E759630053BEF0 /* ECS189ViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		CEB2444414E7BA5000A41818 /* myShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myShape.h; sourceTree = "<group>"; };
+		CEB2444514E7BA5000A41818 /* myShape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myShape.m; sourceTree = "<group>"; };
+		CEB3DF0014E759620053BEF0 /* DrawingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DrawingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEB3DF0414E759620053BEF0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		CEB3DF0614E759620053BEF0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CEB3DF0814E759620053BEF0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		CEB3DF0C14E759620053BEF0 /* DrawingApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DrawingApp-Info.plist"; sourceTree = "<group>"; };
+		CEB3DF0E14E759620053BEF0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CEB3DF1014E759620053BEF0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CEB3DF1214E759620053BEF0 /* DrawingApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DrawingApp-Prefix.pch"; sourceTree = "<group>"; };
+		CEB3DF1314E759620053BEF0 /* ECS189AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ECS189AppDelegate.h; sourceTree = "<group>"; };
+		CEB3DF1414E759620053BEF0 /* ECS189AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ECS189AppDelegate.m; sourceTree = "<group>"; };
+		CEB3DF1614E759630053BEF0 /* ECS189ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ECS189ViewController.h; sourceTree = "<group>"; };
+		CEB3DF1714E759630053BEF0 /* ECS189ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ECS189ViewController.m; sourceTree = "<group>"; };
+		CEB3DF1A14E759630053BEF0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ECS189ViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CEB3DEFD14E759620053BEF0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEB3DF0514E759620053BEF0 /* UIKit.framework in Frameworks */,
+				CEB3DF0714E759620053BEF0 /* Foundation.framework in Frameworks */,
+				CEB3DF0914E759620053BEF0 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CEB3DEF514E759600053BEF0 = {
+			isa = PBXGroup;
+			children = (
+				CEB3DF0A14E759620053BEF0 /* DrawingApp */,
+				CEB3DF0314E759620053BEF0 /* Frameworks */,
+				CEB3DF0114E759620053BEF0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CEB3DF0114E759620053BEF0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CEB3DF0014E759620053BEF0 /* DrawingApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CEB3DF0314E759620053BEF0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CEB3DF0414E759620053BEF0 /* UIKit.framework */,
+				CEB3DF0614E759620053BEF0 /* Foundation.framework */,
+				CEB3DF0814E759620053BEF0 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CEB3DF0A14E759620053BEF0 /* DrawingApp */ = {
+			isa = PBXGroup;
+			children = (
+				CEB3DF1314E759620053BEF0 /* ECS189AppDelegate.h */,
+				CEB3DF1414E759620053BEF0 /* ECS189AppDelegate.m */,
+				CEB2444414E7BA5000A41818 /* myShape.h */,
+				CEB2444514E7BA5000A41818 /* myShape.m */,
+				CEB3DF1614E759630053BEF0 /* ECS189ViewController.h */,
+				CEB3DF1714E759630053BEF0 /* ECS189ViewController.m */,
+				CEB3DF1914E759630053BEF0 /* ECS189ViewController.xib */,
+				CEB3DF0B14E759620053BEF0 /* Supporting Files */,
+			);
+			path = DrawingApp;
+			sourceTree = "<group>";
+		};
+		CEB3DF0B14E759620053BEF0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CEB3DF0C14E759620053BEF0 /* DrawingApp-Info.plist */,
+				CEB3DF0D14E759620053BEF0 /* InfoPlist.strings */,
+				CEB3DF1014E759620053BEF0 /* main.m */,
+				CEB3DF1214E759620053BEF0 /* DrawingApp-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CEB3DEFF14E759620053BEF0 /* DrawingApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEB3DF1E14E759630053BEF0 /* Build configuration list for PBXNativeTarget "DrawingApp" */;
+			buildPhases = (
+				CEB3DEFC14E759620053BEF0 /* Sources */,
+				CEB3DEFD14E759620053BEF0 /* Frameworks */,
+				CEB3DEFE14E759620053BEF0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DrawingApp;
+			productName = DrawingApp;
+			productReference = CEB3DF0014E759620053BEF0 /* DrawingApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CEB3DEF714E759600053BEF0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = CEB3DEFA14E759600053BEF0 /* Build configuration list for PBXProject "DrawingApp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CEB3DEF514E759600053BEF0;
+			productRefGroup = CEB3DF0114E759620053BEF0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CEB3DEFF14E759620053BEF0 /* DrawingApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CEB3DEFE14E759620053BEF0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEB3DF0F14E759620053BEF0 /* InfoPlist.strings in Resources */,
+				CEB3DF1B14E759630053BEF0 /* ECS189ViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CEB3DEFC14E759620053BEF0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEB3DF1114E759620053BEF0 /* main.m in Sources */,
+				CEB3DF1514E759620053BEF0 /* ECS189AppDelegate.m in Sources */,
+				CEB3DF1814E759630053BEF0 /* ECS189ViewController.m in Sources */,
+				CEB2444614E7BA5000A41818 /* myShape.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CEB3DF0D14E759620053BEF0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEB3DF0E14E759620053BEF0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		CEB3DF1914E759630053BEF0 /* ECS189ViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEB3DF1A14E759630053BEF0 /* en */,
+			);
+			name = ECS189ViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CEB3DF1C14E759630053BEF0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		CEB3DF1D14E759630053BEF0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CEB3DF1F14E759630053BEF0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DrawingApp/DrawingApp-Prefix.pch";
+				INFOPLIST_FILE = "DrawingApp/DrawingApp-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		CEB3DF2014E759630053BEF0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DrawingApp/DrawingApp-Prefix.pch";
+				INFOPLIST_FILE = "DrawingApp/DrawingApp-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CEB3DEFA14E759600053BEF0 /* Build configuration list for PBXProject "DrawingApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEB3DF1C14E759630053BEF0 /* Debug */,
+				CEB3DF1D14E759630053BEF0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEB3DF1E14E759630053BEF0 /* Build configuration list for PBXNativeTarget "DrawingApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEB3DF1F14E759630053BEF0 /* Debug */,
+				CEB3DF2014E759630053BEF0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CEB3DEF714E759600053BEF0 /* Project object */;
+}
