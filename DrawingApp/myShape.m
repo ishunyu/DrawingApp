@@ -68,9 +68,47 @@
 }
 
 -(bool)pointOnLine:(CGPoint) point {
+    float dx, dy;
+    dx = _endPoint.x - _startPoint.x;
+    dx = dx < 0 ? (dx * -1.0f) : dx;
+    dy = _endPoint.y - _startPoint.y;
+    dy = dx < 0 ? (dx * -1.0f) : dy;
+    
+    // If on/near line
+    if(_startPoint.x <= _endPoint.x) {
+        if((point.x < _startPoint.x) || (point.x > _endPoint.x)) {
+            return false;
+        }
+    }
+    
+    if(_startPoint.x >= _endPoint.x) {
+        if((point.x > _startPoint.x) || (point.x < _endPoint.x)) {
+            return false;
+        }
+    }
+    
+    if(_startPoint.y <= _endPoint.y) {
+        if((point.y < _startPoint.y) || (point.y > _endPoint.y)) {
+            return false;
+        }
+    }
+    
+    if(_startPoint.y >= _endPoint.y) {
+        if((point.y > _startPoint.y) || (point.y < _endPoint.y)) {
+            return false;
+        }
+    }
+        
+    
+    // Calculating slope
     float m1, m2, diff;
     m1 = (point.y - _startPoint.y)/(point.x - _startPoint.x);
-    m2 = (_endPoint.y - point.y)/(_endPoint.x - point.x);
+    m2 = (_endPoint.y - _startPoint.y)/(_endPoint.x - _startPoint.x);
+    if(dx <= dy) {
+        m1 = 1.0f/m1;
+        m2 = 1.0f/m2;
+    }
+    
     diff = m2 - m1;
     diff = diff < 0 ? (diff * -1.0f) : diff;    // Taking the abs value
     NSLog(@"diff = %f",diff);

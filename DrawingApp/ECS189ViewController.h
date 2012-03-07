@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "myShape.h"
+#import "myUIPickerViewController.h"
+#define SELECTMARGIN 10.0f
+#define ALPHAOPAQUE 1.0f
+#define ALPHATRANSPARENT 0.1f
 
 @interface ECS189ViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 @property (weak, nonatomic) IBOutlet UIImageView *drawingPad;
@@ -16,22 +20,23 @@
 @property (strong, nonatomic) NSMutableArray *collection;
 @property (weak, nonatomic) IBOutlet UISlider *lineWidthSlider;
 @property (weak, nonatomic) IBOutlet UISwitch *dashedLineSelector;
-@property (weak, nonatomic) IBOutlet UIPickerView *colorPicker;
+@property (weak, nonatomic) IBOutlet myUIPickerViewController *colorPicker;
 @property (strong, nonatomic) NSMutableArray *pickerArray;
 @property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *shapeSelector;
-- (UIColor *)colorForRow:(NSInteger)row;
-- (void)drawShapes;
-- (void)drawShapesSubroutine:(myShape *)shapeToBeDrawn contextRef:(CGContextRef) context;
+-(UIColor *)colorForRow:(NSInteger)row;
+-(void)drawShapes;
+-(void)drawShapesSubroutine:(myShape *)shapeToBeDrawn contextRef:(CGContextRef) context;
+-(void)drawShapeSelector:(myShape *)shapeToBeDrawn selectorRect:(CGRect *) rect;
 
 //- (void)initPoints;
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
-- (void)selectShapeOnScreen:(CGPoint) tapPoint;
-- (void)setCurrentShapeProperties;
-- (IBAction)clearDrawingPad:(id)sender;
-- (IBAction)colorPickerButton:(id)sender;
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
+-(void)selectShapeOnScreen:(CGPoint) tapPoint;
+-(void)setCurrentShapeProperties;
+-(IBAction)clearDrawingPad:(id)sender;
+-(IBAction)colorPickerButton:(id)sender;
 @end

@@ -9,7 +9,10 @@
 #import "ECS189ViewController.h"
 #import "myShape.h"
 
-@implementation ECS189ViewController
+
+@implementation ECS189ViewController {
+    bool tapped;
+}
 @synthesize drawingPad = _drawingPad;
 @synthesize currentShape = _currentShape;
 @synthesize currentColor = _currentColor;
@@ -31,8 +34,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.view addSubview:_drawingPad];
-    [_drawingPad addSubview:_colorPicker];
     _currentShape = [[myShape alloc] init];
     _currentColor = [[UIColor alloc] init];
     _currentColor = [UIColor blackColor];
@@ -48,9 +49,6 @@
     [_pickerArray addObject:@"Blue"];
     [_pickerArray addObject:@"Cyan"];
     [_pickerArray addObject:@"Violet"];    
-    
-    //UIGraphicsBeginImageContext(_drawingPad.frame.size);
-	// Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)viewDidUnload
@@ -58,10 +56,8 @@
 
     [self setShapeSelector:nil];
     [self setDrawingPad:nil];
-    [self setDrawingPad:nil];
     [self setLineWidthSlider:nil];
     [self setDashedLineSelector:nil];
-   // [self setColorPicker:nil];
     [self setDebugLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -142,30 +138,32 @@
 #pragma mark - drawing functions
 
 - (void)drawShapes {
-    //NSLog(@"In drawShapes!");
+    NSLog(@"In drawShapes!");
     
     UIGraphicsBeginImageContext(_drawingPad.frame.size);
-    
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
+
     for(myShape *i in _collection) {
         [self drawShapesSubroutine:i contextRef:context];
         if(i.selected == true) {
             CGContextSetLineWidth(context, 1.0f);
-            CGContextSetStrokeColorWithColor(context, [[UIColor blackColor] CGColor]);
+            CGContextSetStrokeColorWithColor(context, [[UIColor darkGrayColor] CGColor]);
+            float num[] = {6.0, 6.0};
+            CGContextSetLineDash(context, 0.0, num, 2);
             
-            CGRect rectangle = CGRectMake(i.startPoint.x - 5.0f,
-                                      i.startPoint.y - 5.0f,
-                                      i.endPoint.x - i.startPoint.x + 10.0f,
-                                      i.endPoint.y - i.startPoint.y + 10.0f);
-        
+            CGRect rectangle;
+            [self drawShapeSelector:i selectorRect: &rectangle];
             CGContextAddRect(context, rectangle);        
             CGContextStrokePath(context);
+            
+            
+            tapped = true;
         }
     }
-    
-     //[self drawShapesSubroutine:_currentShape contextRef:context];
-    
+      
+    if(!tapped)
+        [self drawShapesSubroutine:_currentShape contextRef:context];
+
     _drawingPad.image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 }
@@ -176,7 +174,7 @@
     
     // Setting the dashed parameter
     if(shapeToBeDrawn.isDashed == true){
-        float num[] = {6.0, 6.0};
+        float num[] = {6.0f+shapeToBeDrawn.lineWidth/2.0f, 6.0f+shapeToBeDrawn.lineWidth/2.0f};
         CGContextSetLineDash(context, 0.0, num, 2); 
     }
     else {
@@ -211,10 +209,58 @@
     }
 }
 
+-(void)drawShapeSelector:(myShape *)shapeToBeDrawn selectorRect:(CGRect *) rect {
+    float x, y, width, height;
+    
+    if(shapeToBeDrawn.shape == 0 || shapeToBeDrawn.shape == 1) { //Line & rectangle
+        if(shapeToBeDrawn.startPoint.x < shapeToBeDrawn.endPoint.x) {
+            x = shapeToBeDrawn.startPoint.x - SELECTMARGIN;
+            width = shapeToBeDrawn.endPoint.x - shapeToBeDrawn.startPoint.x + 2*SELECTMARGIN;
+        }
+        else {
+            x = shapeToBeDrawn.endPoint.x - SELECTMARGIN;
+            width = shapeToBeDrawn.startPoint.x - shapeToBeDrawn.endPoint.x + 2*SELECTMARGIN;
+        }
+        
+        if(shapeToBeDrawn.startPoint.y < shapeToBeDrawn.endPoint.y) {
+            y = shapeToBeDrawn.startPoint.y - SELECTMARGIN;
+            height = shapeToBeDrawn.endPoint.y - shapeToBeDrawn.startPoint.y + 2*SELECTMARGIN;
+        }
+        else {
+            y = shapeToBeDrawn.endPoint.y - SELECTMARGIN;
+            height = shapeToBeDrawn.startPoint.y - shapeToBeDrawn.endPoint.y + 2*SELECTMARGIN;
+        }
+        
+    }
+    else if(shapeToBeDrawn.shape == 2) {    // Circle
+        float r, dx, dy;
+        dx = shapeToBeDrawn.endPoint.x - shapeToBeDrawn.startPoint.x;
+        dy = shapeToBeDrawn.endPoint.y - shapeToBeDrawn.startPoint.y;    
+        r = sqrtf(dx*dx + dy*dy);   // Radius of our shape
+        
+        x = shapeToBeDrawn.startPoint.x - r - SELECTMARGIN;
+        y = shapeToBeDrawn.startPoint.y - r - SELECTMARGIN;
+        
+        width = height = 2*(r+SELECTMARGIN);        
+    }
+    else {
+        NSLog(@"drawShapeSelector, shouldn't be here!");
+    }
+    
+    x -= shapeToBeDrawn.lineWidth/2.0f;
+    y -= shapeToBeDrawn.lineWidth/2.0f;
+    width += shapeToBeDrawn.lineWidth;
+    height += shapeToBeDrawn.lineWidth;
+    
+    *rect = CGRectMake(x, y, width, height);
+}
+
+
 #pragma mark - touch interface
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     //NSLog(@"In touchesBegan!");
+    tapped = false;
     UITouch *touch = [touches anyObject];
     CGPoint tempPoint = [touch locationInView:_drawingPad];
     _currentShape.startPoint = CGPointMake(tempPoint.x, tempPoint.y);
@@ -231,12 +277,14 @@
     [self setCurrentShapeProperties];    
     
     [self drawShapes];
-    
+    _colorPicker.alpha = ALPHATRANSPARENT;
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     //NSLog(@"In touchesEnded!");
     UITouch *touch = [touches anyObject];
     CGPoint tempPoint = [touch locationInView:_drawingPad];
+    NSLog(@"%f,%f",tempPoint.x,tempPoint.y);
+    NSLog(@"%@s",[_colorPicker pointInside:tempPoint withEvent:event] ? @"Yes": @"No");
     
     // Check to see if it's a tap
     if(CGPointEqualToPoint(tempPoint, _currentShape.startPoint) == NO) {    // Drag
@@ -250,8 +298,9 @@
         [self drawShapes];
     }
     else {  // Tap
+        tapped = true;
         [self selectShapeOnScreen:(CGPoint) tempPoint];
-        
+                
         for(myShape* i in _collection) {
             i.selected = false;
         }
@@ -270,13 +319,18 @@
 - (void)selectShapeOnScreen:(CGPoint) tapPoint {
     NSLog(@"You tapped!");
     
+    float alpha = ALPHATRANSPARENT;
+    
     for(myShape* i in [_collection reverseObjectEnumerator]) {
         if([i pointContainedInShape:tapPoint]) {
             i.selected = TRUE;
+            alpha = ALPHAOPAQUE;
+            //NSLog(@"Selected!");
             break;
         }
     }
     
+    _colorPicker.alpha = alpha;    
     [self drawShapes];
 }
 
@@ -291,8 +345,9 @@
 }
 
 - (IBAction)colorPickerButton:(id)sender {
-    NSLog(@"Clicked colorPickerButton");
+    //NSLog(@"Clicked colorPickerButton");
     
+    _colorPicker.alpha = ALPHAOPAQUE;    
     if(_colorPicker.hidden == YES) {
         _colorPicker.hidden = NO;
     }

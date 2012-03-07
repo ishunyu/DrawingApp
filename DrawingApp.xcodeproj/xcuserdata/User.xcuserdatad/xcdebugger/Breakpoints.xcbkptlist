@@ -9,11 +9,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "DrawingApp/ECS189ViewController.h"
-         timestampString = "352766850.730541"
+         timestampString = "352811973.986751"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "36"
-         endingLineNumber = "36"
+         startingLineNumber = "41"
+         endingLineNumber = "41"
          landmarkName = "-colorPickerButton:"
          landmarkType = "4">
       </FileBreakpoint>
@@ -37,11 +37,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "DrawingApp/ECS189ViewController.m"
-         timestampString = "352770049.46599"
+         timestampString = "352810512.49245"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "144"
-         endingLineNumber = "144"
+         startingLineNumber = "140"
+         endingLineNumber = "140"
          landmarkName = "-drawShapes"
          landmarkType = "5">
       </FileBreakpoint>
@@ -65,11 +65,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "DrawingApp/ECS189ViewController.m"
-         timestampString = "352770049.46599"
+         timestampString = "352810512.49245"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "230"
-         endingLineNumber = "230"
+         startingLineNumber = "279"
+         endingLineNumber = "279"
          landmarkName = "-touchesMoved:withEvent:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -93,11 +93,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "DrawingApp/ECS189ViewController.m"
-         timestampString = "352770425.604087"
+         timestampString = "352811973.986751"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "305"
-         endingLineNumber = "305"
+         startingLineNumber = "363"
+         endingLineNumber = "363"
          landmarkName = "-alertView:clickedButtonAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -107,11 +107,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "DrawingApp/ECS189ViewController.h"
-         timestampString = "350823798.443739"
+         timestampString = "352811973.986751"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "19"
-         endingLineNumber = "19"
+         startingLineNumber = "23"
+         endingLineNumber = "23"
          landmarkName = "colorPicker"
          landmarkType = "19">
       </FileBreakpoint>
@@ -121,25 +121,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "DrawingApp/ECS189ViewController.m"
-         timestampString = "352766850.730541"
+         timestampString = "352810512.49245"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "35"
-         endingLineNumber = "35"
-         landmarkName = "-viewDidLoad"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "DrawingApp/ECS189ViewController.m"
-         timestampString = "352767027.5351"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "139"
-         endingLineNumber = "139"
+         startingLineNumber = "135"
+         endingLineNumber = "135"
          landmarkName = "-pickerView:didSelectRow:inComponent:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -149,13 +135,67 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "DrawingApp/ECS189ViewController.m"
-         timestampString = "352770321.374327"
+         timestampString = "352811973.986751"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "252"
-         endingLineNumber = "252"
+         startingLineNumber = "304"
+         endingLineNumber = "304"
          landmarkName = "-touchesEnded:withEvent:"
          landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "DrawingApp/ECS189ViewController.m"
+         timestampString = "352810512.49245"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "167"
+         endingLineNumber = "167"
+         landmarkName = "-drawShapes"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "DrawingApp/myShape.m"
+         timestampString = "352808324.262267"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "76"
+         endingLineNumber = "76"
+         landmarkName = "-pointOnLine:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "DrawingApp/myShape.m"
+         timestampString = "352808324.262267"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "103"
+         endingLineNumber = "103"
+         landmarkName = "-pointOnLine:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "DrawingApp/myUIPickerViewController.m"
+         timestampString = "352812505.388551"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "63"
+         endingLineNumber = "63">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

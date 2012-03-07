@@ -16,6 +16,7 @@
 		CEB3DF1514E759620053BEF0 /* ECS189AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB3DF1414E759620053BEF0 /* ECS189AppDelegate.m */; };
 		CEB3DF1814E759630053BEF0 /* ECS189ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB3DF1714E759630053BEF0 /* ECS189ViewController.m */; };
 		CEB3DF1B14E759630053BEF0 /* ECS189ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEB3DF1914E759630053BEF0 /* ECS189ViewController.xib */; };
+		CEB76BE515077533001475EC /* myUIPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB76BE415077533001475EC /* myUIPickerViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,8 @@
 		CEB3DF1614E759630053BEF0 /* ECS189ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ECS189ViewController.h; sourceTree = "<group>"; };
 		CEB3DF1714E759630053BEF0 /* ECS189ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ECS189ViewController.m; sourceTree = "<group>"; };
 		CEB3DF1A14E759630053BEF0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ECS189ViewController.xib; sourceTree = "<group>"; };
+		CEB76BE315077532001475EC /* myUIPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myUIPickerViewController.h; sourceTree = "<group>"; };
+		CEB76BE415077533001475EC /* myUIPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myUIPickerViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +87,8 @@
 				CEB3DF1414E759620053BEF0 /* ECS189AppDelegate.m */,
 				CEB2444414E7BA5000A41818 /* myShape.h */,
 				CEB2444514E7BA5000A41818 /* myShape.m */,
+				CEB76BE315077532001475EC /* myUIPickerViewController.h */,
+				CEB76BE415077533001475EC /* myUIPickerViewController.m */,
 				CEB3DF1614E759630053BEF0 /* ECS189ViewController.h */,
 				CEB3DF1714E759630053BEF0 /* ECS189ViewController.m */,
 				CEB3DF1914E759630053BEF0 /* ECS189ViewController.xib */,
@@ -169,6 +174,7 @@
 				CEB3DF1514E759620053BEF0 /* ECS189AppDelegate.m in Sources */,
 				CEB3DF1814E759630053BEF0 /* ECS189ViewController.m in Sources */,
 				CEB2444614E7BA5000A41818 /* myShape.m in Sources */,
+				CEB76BE515077533001475EC /* myUIPickerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
