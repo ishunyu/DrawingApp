@@ -11,7 +11,6 @@
 
 @interface ECS189DrawingViewController() {
     bool tapped;
-    bool undoPressed;
     NSInteger selectedIndex;
     NSInteger savedLineWidthValue;
     BOOL savedDashedState;
@@ -34,7 +33,6 @@
 
 - (IBAction)clearDrawingPad:(id)sender;
 - (IBAction)colorPickerButton:(id)sender;
-- (IBAction)undoButton:(id)sender;
 - (IBAction)saveButton:(id)sender;
 - (IBAction)lineWidthMoved:(id)sender;
 - (IBAction)isDashMoved:(id)sender;
@@ -85,7 +83,6 @@
     _fileSaveArray = [[NSMutableArray alloc] init];
     
     tapped = FALSE;
-    undoPressed = FALSE;
     selectedIndex = -1;
     savedShapeStartpoint = CGPointMake(0, 0);
     savedShapeEndpoint = CGPointMake(0, 0);
@@ -178,7 +175,7 @@
         }
     }
       
-    if(!tapped && !undoPressed && (selectedIndex == -1))
+    if(!tapped && (selectedIndex == -1))
         [self drawShapesSubroutine:_currentShape contextRef:context];
 
     _drawingPad.image = UIGraphicsGetImageFromCurrentImageContext();
@@ -535,25 +532,6 @@
 }
 
 #pragma mark - Buttons & Features
-
-- (IBAction)undoButton:(id)sender {
-    //NSLog(@"Clicked undoButton");
-    //NSLog(@"count: %d", _collection.count);
-    if(_collection.count > 0) {
-        [_collection removeLastObject];
-        undoPressed = TRUE;
-        [self drawShapes];
-    };
-    undoPressed = FALSE;
-    //NSLog(@"count: %d", _collection.count);
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 1) {
-        [_collection removeAllObjects];
-        _drawingPad.image = nil;
-    }
-}
 
 - (IBAction)clearDrawingPad:(id)sender {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Clear All"
