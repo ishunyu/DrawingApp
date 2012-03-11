@@ -15,8 +15,4 @@
 
 @interface ECS189DrawingViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate,UITableViewDataSource>
 
-
-
-
-
 @end

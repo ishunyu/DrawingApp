@@ -38,6 +38,7 @@
 - (IBAction)saveButton:(id)sender;
 - (IBAction)lineWidthMoved:(id)sender;
 - (IBAction)isDashMoved:(id)sender;
+- (IBAction)deleteButtonPressed:(id)sender;
 
 - (UIColor *)colorForRow:(NSInteger)row;
 - (void)drawShapes;
@@ -367,7 +368,7 @@
     else {
         float dx = _currentShape.endPoint.x - _currentShape.startPoint.x,
             dy = _currentShape.endPoint.y - _currentShape.startPoint.y;
-        NSLog(@"(%f,%f)", dx, dy);
+        //NSLog(@"(%f,%f)", dx, dy);
         myShape *obj = [_collection objectAtIndex:selectedIndex];
         obj.startPoint = CGPointMake(savedShapeStartpoint.x + dx, savedShapeStartpoint.y + dy);
         obj.endPoint = CGPointMake(savedShapeEndpoint.x + dx, savedShapeEndpoint.y + dy);
@@ -423,12 +424,11 @@
 - (void)selectShapeOnScreen:(CGPoint) tapPoint {
     //NSLog(@"You tapped!");
     
-    bool hidden = YES;
     selectedIndex = -1;
     for(myShape* i in [_collection reverseObjectEnumerator]) {
         if([i pointContainedInShape:tapPoint]) {
             //NSLog(@"Selected!");
-            i.selected = TRUE; hidden = NO;
+            i.selected = TRUE;
             _lineWidthSlider.value = i.lineWidth;
             _dashedLineSelector.on = i.isDashed;
             [_colorPicker selectRow:i.color inComponent:0 animated:YES];
@@ -436,8 +436,7 @@
             break;
         }
     }
-    
-    _colorPicker.hidden = hidden;    
+  
     [self drawShapes];
 }
 
@@ -581,6 +580,13 @@
         myShape *obj = [_collection objectAtIndex:selectedIndex];
         obj.isDashed = _dashedLineSelector.on;
         [self drawShapes];
+    }
+}
+- (IBAction)deleteButtonPressed:(id)sender {
+    if(selectedIndex >= 0) {
+        [_collection removeObjectAtIndex:selectedIndex];
+        [self drawShapes];
+        selectedIndex = -1;
     }
 }
 @end
