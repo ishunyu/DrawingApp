@@ -8,6 +8,13 @@
 
 #import "myShape.h"
 
+@interface myShape() {
+    
+}
+-(bool)pointOnLine:(CGPoint) point;
+-(bool)pointContainedInCircle:(CGPoint) point;
+@end
+
 @implementation myShape
 @synthesize startPoint = _startPoint;
 @synthesize endPoint = _endPoint;
@@ -17,6 +24,8 @@
 @synthesize isDashed = _isDashed;
 @synthesize shape = _shape;
 
+
+#pragma mark - Init codes
 -(id)init {
     self = [super init];
     if(self) {
@@ -34,7 +43,7 @@
         _startPoint.y = input.startPoint.y;
         _endPoint.x = input.endPoint.x;
         _endPoint.y = input.endPoint.y;
-        _color = [[UIColor alloc] initWithCGColor:[input.color CGColor]];
+        _color = input.color;
         _selected = input.selected;
         _lineWidth = input.lineWidth;
         _shape = input.shape;
@@ -42,6 +51,38 @@
     }
     
     return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    myShape *c = [[myShape alloc] initCopy:self];
+    if(c) {
+        return c;
+    }
+    return c;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [[myShape alloc] init];
+    if(self) {
+        _startPoint = [aDecoder decodeCGPointForKey:@"startPoint"];
+        _endPoint = [aDecoder decodeCGPointForKey:@"_endPoint"];
+        _color = [aDecoder decodeIntegerForKey:@"color"];
+        _selected = [aDecoder decodeBoolForKey:@"selected"];
+        _isDashed = [aDecoder decodeBoolForKey:@"isDashed"];
+        _lineWidth = [aDecoder decodeIntForKey:@"lineWidth"];
+        _shape = [aDecoder decodeIntForKey:@"shape"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeCGPoint:_startPoint forKey:@"startPoint"];
+    [aCoder encodeCGPoint:_endPoint forKey:@"endPoint"];
+    [aCoder encodeInteger:_color  forKey:@"color"];
+    [aCoder encodeBool:_selected forKey:@"selected"];
+    [aCoder encodeBool:_isDashed forKey:@"isDashed"];
+    [aCoder encodeInt:_lineWidth forKey:@"lineWidth"];
+    [aCoder encodeInt:_shape forKey:@"shape"];
 }
 
 #pragma mark - Select Shapes
@@ -111,7 +152,7 @@
     
     diff = m2 - m1;
     diff = diff < 0 ? (diff * -1.0f) : diff;    // Taking the abs value
-    NSLog(@"diff = %f",diff);
+    //NSLog(@"diff = %f",diff);
     
     if(diff <= 0.25f)
         return true;

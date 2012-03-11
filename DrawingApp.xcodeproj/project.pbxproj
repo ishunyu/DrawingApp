@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE866413150CB6B70068025E /* icon_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = CE866410150CB6B70068025E /* icon_circle.png */; };
+		CE866414150CB6B70068025E /* icon_line.gif in Resources */ = {isa = PBXBuildFile; fileRef = CE866411150CB6B70068025E /* icon_line.gif */; };
+		CE866415150CB6B70068025E /* icon_rectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = CE866412150CB6B70068025E /* icon_rectangle.png */; };
 		CEB2444614E7BA5000A41818 /* myShape.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB2444514E7BA5000A41818 /* myShape.m */; };
 		CEB3DF0514E759620053BEF0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEB3DF0414E759620053BEF0 /* UIKit.framework */; };
 		CEB3DF0714E759620053BEF0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEB3DF0614E759620053BEF0 /* Foundation.framework */; };
@@ -14,12 +17,15 @@
 		CEB3DF0F14E759620053BEF0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEB3DF0D14E759620053BEF0 /* InfoPlist.strings */; };
 		CEB3DF1114E759620053BEF0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB3DF1014E759620053BEF0 /* main.m */; };
 		CEB3DF1514E759620053BEF0 /* ECS189AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB3DF1414E759620053BEF0 /* ECS189AppDelegate.m */; };
-		CEB3DF1814E759630053BEF0 /* ECS189ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB3DF1714E759630053BEF0 /* ECS189ViewController.m */; };
-		CEB3DF1B14E759630053BEF0 /* ECS189ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEB3DF1914E759630053BEF0 /* ECS189ViewController.xib */; };
+		CEB3DF1814E759630053BEF0 /* ECS189DrawingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB3DF1714E759630053BEF0 /* ECS189DrawingViewController.m */; };
+		CEB3DF1B14E759630053BEF0 /* ECS189DrawingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEB3DF1914E759630053BEF0 /* ECS189DrawingView.xib */; };
 		CEB76BE515077533001475EC /* myUIPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB76BE415077533001475EC /* myUIPickerViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE866410150CB6B70068025E /* icon_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_circle.png; sourceTree = "<group>"; };
+		CE866411150CB6B70068025E /* icon_line.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = icon_line.gif; sourceTree = "<group>"; };
+		CE866412150CB6B70068025E /* icon_rectangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_rectangle.png; sourceTree = "<group>"; };
 		CEB2444414E7BA5000A41818 /* myShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myShape.h; sourceTree = "<group>"; };
 		CEB2444514E7BA5000A41818 /* myShape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myShape.m; sourceTree = "<group>"; };
 		CEB3DF0014E759620053BEF0 /* DrawingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DrawingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -32,9 +38,9 @@
 		CEB3DF1214E759620053BEF0 /* DrawingApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DrawingApp-Prefix.pch"; sourceTree = "<group>"; };
 		CEB3DF1314E759620053BEF0 /* ECS189AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ECS189AppDelegate.h; sourceTree = "<group>"; };
 		CEB3DF1414E759620053BEF0 /* ECS189AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ECS189AppDelegate.m; sourceTree = "<group>"; };
-		CEB3DF1614E759630053BEF0 /* ECS189ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ECS189ViewController.h; sourceTree = "<group>"; };
-		CEB3DF1714E759630053BEF0 /* ECS189ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ECS189ViewController.m; sourceTree = "<group>"; };
-		CEB3DF1A14E759630053BEF0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ECS189ViewController.xib; sourceTree = "<group>"; };
+		CEB3DF1614E759630053BEF0 /* ECS189DrawingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ECS189DrawingViewController.h; sourceTree = "<group>"; };
+		CEB3DF1714E759630053BEF0 /* ECS189DrawingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ECS189DrawingViewController.m; sourceTree = "<group>"; };
+		CEB3DF1A14E759630053BEF0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ECS189DrawingView.xib; sourceTree = "<group>"; };
 		CEB76BE315077532001475EC /* myUIPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myUIPickerViewController.h; sourceTree = "<group>"; };
 		CEB76BE415077533001475EC /* myUIPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myUIPickerViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -53,6 +59,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE86640F150CB6B70068025E /* images */ = {
+			isa = PBXGroup;
+			children = (
+				CE866410150CB6B70068025E /* icon_circle.png */,
+				CE866411150CB6B70068025E /* icon_line.gif */,
+				CE866412150CB6B70068025E /* icon_rectangle.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
 		CEB3DEF514E759600053BEF0 = {
 			isa = PBXGroup;
 			children = (
@@ -89,9 +105,10 @@
 				CEB2444514E7BA5000A41818 /* myShape.m */,
 				CEB76BE315077532001475EC /* myUIPickerViewController.h */,
 				CEB76BE415077533001475EC /* myUIPickerViewController.m */,
-				CEB3DF1614E759630053BEF0 /* ECS189ViewController.h */,
-				CEB3DF1714E759630053BEF0 /* ECS189ViewController.m */,
-				CEB3DF1914E759630053BEF0 /* ECS189ViewController.xib */,
+				CEB3DF1614E759630053BEF0 /* ECS189DrawingViewController.h */,
+				CEB3DF1714E759630053BEF0 /* ECS189DrawingViewController.m */,
+				CEB3DF1914E759630053BEF0 /* ECS189DrawingView.xib */,
+				CE86640F150CB6B70068025E /* images */,
 				CEB3DF0B14E759620053BEF0 /* Supporting Files */,
 			);
 			path = DrawingApp;
@@ -159,7 +176,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEB3DF0F14E759620053BEF0 /* InfoPlist.strings in Resources */,
-				CEB3DF1B14E759630053BEF0 /* ECS189ViewController.xib in Resources */,
+				CEB3DF1B14E759630053BEF0 /* ECS189DrawingView.xib in Resources */,
+				CE866413150CB6B70068025E /* icon_circle.png in Resources */,
+				CE866414150CB6B70068025E /* icon_line.gif in Resources */,
+				CE866415150CB6B70068025E /* icon_rectangle.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,7 +192,7 @@
 			files = (
 				CEB3DF1114E759620053BEF0 /* main.m in Sources */,
 				CEB3DF1514E759620053BEF0 /* ECS189AppDelegate.m in Sources */,
-				CEB3DF1814E759630053BEF0 /* ECS189ViewController.m in Sources */,
+				CEB3DF1814E759630053BEF0 /* ECS189DrawingViewController.m in Sources */,
 				CEB2444614E7BA5000A41818 /* myShape.m in Sources */,
 				CEB76BE515077533001475EC /* myUIPickerViewController.m in Sources */,
 			);
@@ -189,12 +209,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		CEB3DF1914E759630053BEF0 /* ECS189ViewController.xib */ = {
+		CEB3DF1914E759630053BEF0 /* ECS189DrawingView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				CEB3DF1A14E759630053BEF0 /* en */,
 			);
-			name = ECS189ViewController.xib;
+			name = ECS189DrawingView.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

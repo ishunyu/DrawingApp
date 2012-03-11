@@ -8,17 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@interface myShape : NSObject
+@interface myShape : NSObject <NSCoding, NSCopying>
 -(id)init;
 -(id)initCopy:(myShape *)input;
--(bool)pointContainedInShape:(CGPoint) point;
--(bool)pointOnLine:(CGPoint) point;
--(bool)pointContainedInCircle:(CGPoint) point;
 
+-(bool)pointContainedInShape:(CGPoint) point;
 
 @property CGPoint startPoint;
 @property CGPoint endPoint;
-@property (strong, nonatomic) UIColor *color;
+@property NSInteger color;
 @property int shape;
 @property bool selected;
 @property bool isDashed;

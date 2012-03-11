@@ -7,8 +7,7 @@
 //
 
 #import "ECS189AppDelegate.h"
-
-#import "ECS189ViewController.h"
+#import "ECS189DrawingViewController.h"
 
 @implementation ECS189AppDelegate
 
@@ -18,10 +17,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
     // Override point for customization after application launch.
-    self.viewController = [[ECS189ViewController alloc] initWithNibName:@"ECS189ViewController" bundle:nil];
+    self.viewController = [[ECS189DrawingViewController alloc] initWithNibName:@"ECS189DrawingView" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 

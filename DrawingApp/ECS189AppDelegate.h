@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class ECS189ViewController;
+@class ECS189DrawingViewController;
 
 @interface ECS189AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
-@property (strong, nonatomic) ECS189ViewController *viewController;
+@property (strong, nonatomic) ECS189DrawingViewController *viewController;
 
 @end
