@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE4C9E4E150D0BE200B0B5BE /* icon_line.png in Resources */ = {isa = PBXBuildFile; fileRef = CE4C9E4D150D0BE200B0B5BE /* icon_line.png */; };
 		CE866413150CB6B70068025E /* icon_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = CE866410150CB6B70068025E /* icon_circle.png */; };
-		CE866414150CB6B70068025E /* icon_line.gif in Resources */ = {isa = PBXBuildFile; fileRef = CE866411150CB6B70068025E /* icon_line.gif */; };
 		CE866415150CB6B70068025E /* icon_rectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = CE866412150CB6B70068025E /* icon_rectangle.png */; };
 		CEB2444614E7BA5000A41818 /* myShape.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB2444514E7BA5000A41818 /* myShape.m */; };
 		CEB3DF0514E759620053BEF0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEB3DF0414E759620053BEF0 /* UIKit.framework */; };
@@ -23,8 +23,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE4C9E4D150D0BE200B0B5BE /* icon_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_line.png; sourceTree = "<group>"; };
+		CE4C9E4F150D10EB00B0B5BE /* ECS189VectorMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECS189VectorMath.h; sourceTree = "<group>"; };
 		CE866410150CB6B70068025E /* icon_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_circle.png; sourceTree = "<group>"; };
-		CE866411150CB6B70068025E /* icon_line.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = icon_line.gif; sourceTree = "<group>"; };
 		CE866412150CB6B70068025E /* icon_rectangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_rectangle.png; sourceTree = "<group>"; };
 		CEB2444414E7BA5000A41818 /* myShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myShape.h; sourceTree = "<group>"; };
 		CEB2444514E7BA5000A41818 /* myShape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myShape.m; sourceTree = "<group>"; };
@@ -62,8 +63,8 @@
 		CE86640F150CB6B70068025E /* images */ = {
 			isa = PBXGroup;
 			children = (
+				CE4C9E4D150D0BE200B0B5BE /* icon_line.png */,
 				CE866410150CB6B70068025E /* icon_circle.png */,
-				CE866411150CB6B70068025E /* icon_line.gif */,
 				CE866412150CB6B70068025E /* icon_rectangle.png */,
 			);
 			path = images;
@@ -99,6 +100,7 @@
 		CEB3DF0A14E759620053BEF0 /* DrawingApp */ = {
 			isa = PBXGroup;
 			children = (
+				CE4C9E4F150D10EB00B0B5BE /* ECS189VectorMath.h */,
 				CEB3DF1314E759620053BEF0 /* ECS189AppDelegate.h */,
 				CEB3DF1414E759620053BEF0 /* ECS189AppDelegate.m */,
 				CEB2444414E7BA5000A41818 /* myShape.h */,
@@ -178,8 +180,8 @@
 				CEB3DF0F14E759620053BEF0 /* InfoPlist.strings in Resources */,
 				CEB3DF1B14E759630053BEF0 /* ECS189DrawingView.xib in Resources */,
 				CE866413150CB6B70068025E /* icon_circle.png in Resources */,
-				CE866414150CB6B70068025E /* icon_line.gif in Resources */,
 				CE866415150CB6B70068025E /* icon_rectangle.png in Resources */,
+				CE4C9E4E150D0BE200B0B5BE /* icon_line.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
