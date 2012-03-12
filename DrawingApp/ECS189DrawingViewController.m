@@ -11,11 +11,14 @@
 
 @interface ECS189DrawingViewController() {
     bool tapped;
+    bool cleared;
     NSInteger selectedIndex;
     NSInteger savedLineWidthValue;
     BOOL savedDashedState;
     CGPoint savedShapeStartpoint;
     CGPoint savedShapeEndpoint;
+    NSTimeInterval startTime;
+    NSTimeInterval holdTime;
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *drawingPad;
@@ -24,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet myUIPickerViewController *colorPicker;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *shapeSelector;
 @property (weak, nonatomic) IBOutlet UITableView *saveFileTableView;
+@property (weak, nonatomic) IBOutlet UITextView *hintTextView;
 
 @property (strong, atomic) myShape *currentShape;
 @property NSInteger currentColor;
@@ -37,6 +41,7 @@
 - (IBAction)lineWidthMoved:(id)sender;
 - (IBAction)isDashMoved:(id)sender;
 - (IBAction)deleteButtonPressed:(id)sender;
+- (IBAction)hintButtonPressed:(id)sender;
 
 - (UIColor *)colorForRow:(NSInteger)row;
 - (void)drawShapes;
@@ -53,6 +58,7 @@
 
 // Start implementation
 @implementation ECS189DrawingViewController
+@synthesize hintTextView = _hintTextView;
 @synthesize currentShape = _currentShape;   // Current shape the user is attempting to draw
 @synthesize currentColor = _currentColor;   // The color selection
 
@@ -83,10 +89,13 @@
     _fileSaveArray = [[NSMutableArray alloc] init];
     
     tapped = FALSE;
+    cleared = FALSE;
     selectedIndex = -1;
     savedShapeStartpoint = CGPointMake(0, 0);
     savedShapeEndpoint = CGPointMake(0, 0);
     _saveFileTableView.hidden = YES;
+    holdTime = 0.0f;
+    startTime = 0.0f;
     
     
     _pickerArray = [[NSMutableArray alloc] init];
@@ -117,6 +126,7 @@
     [self setLineWidthSlider:nil];
     [self setDashedLineSelector:nil];
     [self setSaveFileTableView:nil];
+    [self setHintTextView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -175,7 +185,7 @@
         }
     }
       
-    if(!tapped && (selectedIndex == -1))
+    if(!tapped && !cleared && (selectedIndex == -1))
         [self drawShapesSubroutine:_currentShape contextRef:context];
 
     _drawingPad.image = UIGraphicsGetImageFromCurrentImageContext();
@@ -188,7 +198,7 @@
     
     // Setting the dashed parameter
     if(shapeToBeDrawn.isDashed == true){
-        float num[] = {6.0f+shapeToBeDrawn.lineWidth/2.0f, 6.0f+shapeToBeDrawn.lineWidth/2.0f};
+        float num[] = {6.0f+shapeToBeDrawn.lineWidth/4.0f, 6.0f+shapeToBeDrawn.lineWidth/4.0f};
         CGContextSetLineDash(context, 0.0, num, 2); 
     }
     else {
@@ -329,6 +339,7 @@
     tapped = false;    
     UITouch *touch = [touches anyObject];
     CGPoint tempPoint = [touch locationInView:_drawingPad];
+    startTime = touch.timestamp;
     _currentShape.startPoint = CGPointMake(tempPoint.x, tempPoint.y);
     
     NSInteger touchesBeganSelectedIndex = -1;   // Checking to see if the new point still selectes the right shape.
@@ -355,6 +366,17 @@
     //NSLog(@"In touchesMoved!");
     UITouch *touch = [touches anyObject];
     CGPoint tempPoint = [touch locationInView:_drawingPad];
+    
+    if(CGPointEqualToPoint(tempPoint, [touch previousLocationInView:_drawingPad])) {
+        holdTime = touch.timestamp;
+    }
+    else {
+        holdTime = startTime;
+    }
+    
+    if((holdTime - startTime) > 0) {
+        NSLog(@"%f", holdTime - startTime);
+    }
     
     // Setting properties
     _currentShape.endPoint = CGPointMake(tempPoint.x, tempPoint.y);
@@ -421,6 +443,7 @@
 - (void)selectShapeOnScreen:(CGPoint) tapPoint {
     //NSLog(@"You tapped!");
     
+    bool hidden = TRUE;
     selectedIndex = -1;
     for(myShape* i in [_collection reverseObjectEnumerator]) {
         if([i pointContainedInShape:tapPoint]) {
@@ -429,12 +452,14 @@
             _lineWidthSlider.value = i.lineWidth;
             _dashedLineSelector.on = i.isDashed;
             [_colorPicker selectRow:i.color inComponent:0 animated:YES];
+            hidden = FALSE;
             selectedIndex = [_collection indexOfObject:i];
             break;
         }
     }
-  
+    
     [self drawShapes];
+    _colorPicker.hidden = hidden;
 }
 
 - (void)clearSelectShapeOnScreen {
@@ -449,12 +474,7 @@
     //NSLog(@"Clicked colorPickerButton");
     
     _colorPicker.alpha = ALPHAOPAQUE;    
-    if(_colorPicker.hidden == YES) {
-        _colorPicker.hidden = NO;
-    }
-    else {
-        _colorPicker.hidden = YES;
-    }
+    _colorPicker.hidden = !_colorPicker.hidden;
 }
 
 -(UIColor *)colorForRow:(NSInteger)row {
@@ -531,7 +551,7 @@
     
 }
 
-#pragma mark - Buttons & Features
+#pragma mark - Alert
 
 - (IBAction)clearDrawingPad:(id)sender {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Clear All"
@@ -539,11 +559,37 @@
                                                    delegate:self
                                           cancelButtonTitle:@"Cancel"
                                           otherButtonTitles:@"YES", nil];
+    alert.tag = 0;
     [alert show];
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(alertView.tag ==0 && buttonIndex == 1) {
+        NSLog(@"0");
+        [_collection removeAllObjects];
+        cleared = TRUE;
+        [self drawShapes];
+        cleared = FALSE;
+    }
+    
+    if(alertView.tag == 1 && buttonIndex == 1) {
+        NSLog(@"1:%@", [alertView textFieldAtIndex:0].text);
+        [self saveDataToDisk];
+    }
+}
+
+#pragma mark - Buttons & Features
+
 - (IBAction)saveButton:(id)sender {
-    [self saveDataToDisk];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save this awesomeness!"
+                                                    message:@"Name?"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"Save", nil];
+    
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    alert.tag = 1;
+    [alert show];
 }
 - (IBAction)lineWidthMoved:(id)sender {
     if(selectedIndex >= 0){
@@ -565,6 +611,10 @@
         [_collection removeObjectAtIndex:selectedIndex];
         [self drawShapes];
         selectedIndex = -1;
+        _colorPicker.hidden = TRUE;
     }
+}
+- (IBAction)hintButtonPressed:(id)sender {
+    _hintTextView.hidden = !_hintTextView.hidden;
 }
 @end

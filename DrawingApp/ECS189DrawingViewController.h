@@ -13,6 +13,8 @@
 #define ALPHAOPAQUE 1.0f
 #define ALPHATRANSPARENT 0.1f
 
-@interface ECS189DrawingViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate,UITableViewDataSource>
+@interface ECS189DrawingViewController : UIViewController <UIAlertViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate,UITableViewDataSource>
+
+
 
 @end
