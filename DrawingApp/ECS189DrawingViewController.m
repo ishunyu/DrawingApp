@@ -12,13 +12,12 @@
 @interface ECS189DrawingViewController() {
     bool tapped;
     bool cleared;
+    bool savedColorPickerHiddenState;
     NSInteger selectedIndex;
     NSInteger savedLineWidthValue;
     BOOL savedDashedState;
     CGPoint savedShapeStartpoint;
     CGPoint savedShapeEndpoint;
-    NSTimeInterval startTime;
-    NSTimeInterval holdTime;
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *drawingPad;
@@ -28,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *shapeSelector;
 @property (weak, nonatomic) IBOutlet UITableView *saveFileTableView;
 @property (weak, nonatomic) IBOutlet UITextView *hintTextView;
+@property (weak, nonatomic) IBOutlet UITextView *hintTextViewB;
 
 @property (strong, atomic) myShape *currentShape;
 @property NSInteger currentColor;
@@ -42,6 +42,7 @@
 - (IBAction)isDashMoved:(id)sender;
 - (IBAction)deleteButtonPressed:(id)sender;
 - (IBAction)hintButtonPressed:(id)sender;
+- (IBAction)doubleTappedInDrawingPad:(id)sender;
 
 - (UIColor *)colorForRow:(NSInteger)row;
 - (void)drawShapes;
@@ -51,13 +52,14 @@
 - (void)clearSelectShapeOnScreen;
 - (void)setCurrentShapeProperties;
 - (void)setupFileSaveArray;
-- (NSString *) pathForDataFile;
-- (void) saveDataToDisk;
-- (void) loadDataFromDisk;
+- (NSString *)pathForDataFile;
+- (void)saveDataToDisk;
+- (void)loadDataFromDisk;
 @end
 
 // Start implementation
 @implementation ECS189DrawingViewController
+@synthesize hintTextViewB = _hintTextViewB;
 @synthesize hintTextView = _hintTextView;
 @synthesize currentShape = _currentShape;   // Current shape the user is attempting to draw
 @synthesize currentColor = _currentColor;   // The color selection
@@ -94,8 +96,6 @@
     savedShapeStartpoint = CGPointMake(0, 0);
     savedShapeEndpoint = CGPointMake(0, 0);
     _saveFileTableView.hidden = YES;
-    holdTime = 0.0f;
-    startTime = 0.0f;
     
     
     _pickerArray = [[NSMutableArray alloc] init];
@@ -127,6 +127,7 @@
     [self setDashedLineSelector:nil];
     [self setSaveFileTableView:nil];
     [self setHintTextView:nil];
+    [self setHintTextViewB:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -335,11 +336,10 @@
 #pragma mark - touch interface
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    //NSLog(@"In touchesBegan!");
+    NSLog(@"In touchesBegan!");
     tapped = false;    
     UITouch *touch = [touches anyObject];
     CGPoint tempPoint = [touch locationInView:_drawingPad];
-    startTime = touch.timestamp;
     _currentShape.startPoint = CGPointMake(tempPoint.x, tempPoint.y);
     
     NSInteger touchesBeganSelectedIndex = -1;   // Checking to see if the new point still selectes the right shape.
@@ -366,17 +366,7 @@
     //NSLog(@"In touchesMoved!");
     UITouch *touch = [touches anyObject];
     CGPoint tempPoint = [touch locationInView:_drawingPad];
-    
-    if(CGPointEqualToPoint(tempPoint, [touch previousLocationInView:_drawingPad])) {
-        holdTime = touch.timestamp;
-    }
-    else {
-        holdTime = startTime;
-    }
-    
-    if((holdTime - startTime) > 0) {
-        NSLog(@"%f", holdTime - startTime);
-    }
+
     
     // Setting properties
     _currentShape.endPoint = CGPointMake(tempPoint.x, tempPoint.y);
@@ -398,7 +388,7 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    //NSLog(@"In touchesEnded!");
+    NSLog(@"In touchesEnded!");
     UITouch *touch = [touches anyObject];
     CGPoint tempPoint = [touch locationInView:_drawingPad];
     //NSLog(@"%f,%f",tempPoint.x,tempPoint.y);
@@ -591,6 +581,7 @@
     alert.tag = 1;
     [alert show];
 }
+
 - (IBAction)lineWidthMoved:(id)sender {
     if(selectedIndex >= 0){
         myShape *obj = [_collection objectAtIndex:selectedIndex];
@@ -606,6 +597,7 @@
         [self drawShapes];
     }
 }
+
 - (IBAction)deleteButtonPressed:(id)sender {
     if(selectedIndex >= 0) {
         [_collection removeObjectAtIndex:selectedIndex];
@@ -614,7 +606,29 @@
         _colorPicker.hidden = TRUE;
     }
 }
+
 - (IBAction)hintButtonPressed:(id)sender {
     _hintTextView.hidden = !_hintTextView.hidden;
+    _hintTextViewB.hidden = !_hintTextViewB.hidden;
+}
+
+- (IBAction)doubleTappedInDrawingPad:(id)sender {
+    NSLog(@"Double Tapped! :D");
+    
+    if(_shapeSelector.hidden) { // Controls are currently hidden
+        for(UIView *i in _drawingPad.subviews) {
+            if(i == _colorPicker) {
+                i.hidden = savedColorPickerHiddenState;
+                continue;
+            }
+            i.hidden = FALSE;
+        }        
+    }
+    else { // Controls are currently being shown
+        savedColorPickerHiddenState = _colorPicker.hidden;
+        for(UIView *i in _drawingPad.subviews) {
+            i.hidden = TRUE;
+        }
+    }
 }
 @end
