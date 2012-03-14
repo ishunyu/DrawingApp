@@ -112,8 +112,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "63"
          endingLineNumber = "63"
-         landmarkName = "-hitTest:withEvent:"
-         landmarkType = "5">
+         landmarkName = "@implementation myUIPickerViewController"
+         landmarkType = "3">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

@@ -10,8 +10,7 @@
 #import "myShape.h"
 
 @interface ECS189DrawingViewController() {
-    bool tapped;
-    bool cleared;
+    bool skipDrawingCurrentShape;
     bool savedColorPickerHiddenState;
     NSInteger selectedIndex;
     NSInteger savedLineWidthValue;
@@ -34,6 +33,7 @@
 @property (strong, nonatomic) NSMutableArray *collection;
 @property (strong, nonatomic) NSMutableArray *pickerArray;
 @property (strong, nonatomic) NSMutableArray *fileSaveArray;
+@property (strong, nonatomic) NSString *fileExtension;
 
 - (IBAction)clearDrawingPad:(id)sender;
 - (IBAction)colorPickerButton:(id)sender;
@@ -43,6 +43,7 @@
 - (IBAction)deleteButtonPressed:(id)sender;
 - (IBAction)hintButtonPressed:(id)sender;
 - (IBAction)doubleTappedInDrawingPad:(id)sender;
+- (IBAction)loadButtonPressed:(id)sender;
 
 - (UIColor *)colorForRow:(NSInteger)row;
 - (void)drawShapes;
@@ -51,10 +52,13 @@
 - (void)selectShapeOnScreen:(CGPoint) tapPoint;
 - (void)clearSelectShapeOnScreen;
 - (void)setCurrentShapeProperties;
+
+// File operations
 - (void)setupFileSaveArray;
-- (NSString *)pathForDataFile;
-- (void)saveDataToDisk;
-- (void)loadDataFromDisk;
+- (NSString *)pathForDataFileWithFilename:(NSString *) filename;
+- (void)saveDataToDiskWithFilename:(NSString *) filename;
+- (void)deleteFileWithFilename:(NSString *) filename;
+- (void)loadDataFromDiskWithFilename:(NSString *) filename;
 @end
 
 // Start implementation
@@ -74,6 +78,7 @@
 @synthesize pickerArray = _pickerArray; // Stores the colors
 @synthesize collection = _collection;   // NSMutableArray that stores all the components for shape
 @synthesize fileSaveArray = _fileSaveArray; // Lists the files saves
+@synthesize fileExtension = _fileExtension;
 
 - (void)didReceiveMemoryWarning
 {
@@ -90,12 +95,14 @@
     _currentColor = 0;    
     _fileSaveArray = [[NSMutableArray alloc] init];
     
-    tapped = FALSE;
-    cleared = FALSE;
+    skipDrawingCurrentShape = FALSE;
     selectedIndex = -1;
     savedShapeStartpoint = CGPointMake(0, 0);
     savedShapeEndpoint = CGPointMake(0, 0);
+    _saveFileTableView.editing = YES;
+    _saveFileTableView.allowsSelectionDuringEditing = YES;
     _saveFileTableView.hidden = YES;
+    _fileExtension = [[NSString alloc] initWithString:@".DrawingPad"];
     
     
     _pickerArray = [[NSMutableArray alloc] init];
@@ -110,7 +117,8 @@
     [_pickerArray addObject:@"Violet"];
     
     [self setupFileSaveArray];    
-    //[self loadDataFromDisk];
+    [_saveFileTableView reloadData];
+    [_saveFileTableView setNeedsDisplay];
     
     if(_collection == nil) {
         _collection = [[NSMutableArray alloc] init];
@@ -146,7 +154,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-    [self saveDataToDisk];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -186,9 +193,10 @@
         }
     }
       
-    if(!tapped && !cleared && (selectedIndex == -1))
+    if(!skipDrawingCurrentShape && (selectedIndex == -1)) {
         [self drawShapesSubroutine:_currentShape contextRef:context];
-
+        skipDrawingCurrentShape = FALSE;
+    }
     _drawingPad.image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 }
@@ -282,8 +290,7 @@
 
 
 #pragma mark - File Saving
-- (NSString *) pathForDataFile
-{
+- (NSString *) pathForDataFileWithFilename:(NSString *)filename {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     NSString *folder = @"~/Library/Application Support/DrawingApp/";
@@ -294,13 +301,16 @@
         [fileManager createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:nil];
     }
     
-    NSString *fileName = @"example.DrawingApp";
-    return [folder stringByAppendingPathComponent: fileName];    
+    if(filename) {
+        return [folder stringByAppendingPathComponent:[filename stringByAppendingString:_fileExtension]];
+    }
+    else {
+        return folder;
+    }
 }
 
-- (void) saveDataToDisk
-{
-    NSString * path = [self pathForDataFile];
+- (void) saveDataToDiskWithFilename:(NSString *)filename {
+    NSString * path = [self pathForDataFileWithFilename:filename];
     
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
@@ -313,37 +323,61 @@
     }
 }
 
-- (void) loadDataFromDisk
-{
-    NSString * path = [self pathForDataFile];
+- (void) loadDataFromDiskWithFilename:(NSString *)filename {
+    NSString * path = [self pathForDataFileWithFilename:filename];
     
     if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        NSMutableData *data = [[NSMutableData alloc] initWithContentsOfFile:path];
-        NSKeyedArchiver *unarchiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+        NSData *data = [[NSData alloc] initWithContentsOfFile:path];
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     
-        _collection = [unarchiver decodeObjectForKey:@"collection"];
-        //NSLog(@"collection: %d",_collection.count);
+        NSArray *temp = [unarchiver decodeObjectForKey:@"collection"];
+        [_collection removeAllObjects];
+        for(myShape *i in temp) {
+            [_collection addObject:i];
+        }
         [self drawShapes];
     }
 }
 
+- (void)deleteFileWithFilename:(NSString *) filename {
+    NSString *path = [self pathForDataFileWithFilename:filename];
+    NSLog(@"%@",path);
+    
+    [[NSFileManager defaultManager] removeItemAtPath:path error:nil];    
+}
+
+- (void)setupFileSaveArray {
+    NSArray *temp = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self pathForDataFileWithFilename:nil]
+                                                                        error:nil];
+    [_fileSaveArray removeAllObjects];
+    for(NSString *i in temp) {
+        //NSLog(@"%@", [i stringByReplacingOccurrencesOfString:_fileExtension withString:@""]);
+        if([i isEqualToString:_fileExtension] == YES) {
+            continue;
+        }
+        [_fileSaveArray addObject:[i stringByReplacingOccurrencesOfString:_fileExtension withString:@""]];
+    }
+}
 
 - (void) applicationWillTerminate: (NSNotification *)note
 {
-    [self saveDataToDisk];
+    [self saveDataToDiskWithFilename:@"lastSave"];
 }
 
 #pragma mark - touch interface
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     NSLog(@"In touchesBegan!");
-    tapped = false;    
+    
+    // Receiving the touch event
     UITouch *touch = [touches anyObject];
     CGPoint tempPoint = [touch locationInView:_drawingPad];
-    _currentShape.startPoint = CGPointMake(tempPoint.x, tempPoint.y);
+    
+    _currentShape.startPoint = CGPointMake(tempPoint.x, tempPoint.y);   // storing the point
     
     NSInteger touchesBeganSelectedIndex = -1;   // Checking to see if the new point still selectes the right shape.
     
+    // Code checking to see if we need to move an object
     for(myShape* i in [_collection reverseObjectEnumerator]) {
         if([i pointContainedInShape:tempPoint]) {
             touchesBeganSelectedIndex = [_collection indexOfObject:i];
@@ -371,10 +405,10 @@
     // Setting properties
     _currentShape.endPoint = CGPointMake(tempPoint.x, tempPoint.y);
     
-    if(selectedIndex == -1){
+    if(selectedIndex == -1){    // If we aren't dragging a shape
         [self setCurrentShapeProperties];
     }
-    else {
+    else {  // If we are dragging a shape
         float dx = _currentShape.endPoint.x - _currentShape.startPoint.x,
             dy = _currentShape.endPoint.y - _currentShape.startPoint.y;
         //NSLog(@"(%f,%f)", dx, dy);
@@ -389,6 +423,8 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     NSLog(@"In touchesEnded!");
+    
+    // Receiving the touch event
     UITouch *touch = [touches anyObject];
     CGPoint tempPoint = [touch locationInView:_drawingPad];
     //NSLog(@"%f,%f",tempPoint.x,tempPoint.y);
@@ -416,11 +452,12 @@
         [self drawShapes];
     }
     else {  // Tap
-        tapped = true;
+        skipDrawingCurrentShape = true;
         [self selectShapeOnScreen:(CGPoint) tempPoint];
     }
 }
 
+// Sets the current shape's properties
 - (void)setCurrentShapeProperties {
     _currentShape.shape = [_shapeSelector selectedSegmentIndex];
     _currentShape.lineWidth = _lineWidthSlider.value;
@@ -435,15 +472,17 @@
     
     bool hidden = TRUE;
     selectedIndex = -1;
+    
+    // Checks to see if the tapped point is in range of any shapes
     for(myShape* i in [_collection reverseObjectEnumerator]) {
         if([i pointContainedInShape:tapPoint]) {
             //NSLog(@"Selected!");
-            i.selected = TRUE;
-            _lineWidthSlider.value = i.lineWidth;
-            _dashedLineSelector.on = i.isDashed;
-            [_colorPicker selectRow:i.color inComponent:0 animated:YES];
-            hidden = FALSE;
-            selectedIndex = [_collection indexOfObject:i];
+            i.selected = TRUE;  // Sets the shape's select parameter to TRUE
+            _lineWidthSlider.value = i.lineWidth;   // Sets the line width slider to the shape's line width
+            _dashedLineSelector.on = i.isDashed;    // Sets the dashed line selector to shape's dashed state
+            [_colorPicker selectRow:i.color inComponent:0 animated:YES];    // Sets the color picker to the color of the selected shape
+            hidden = FALSE; // Show the color picker
+            selectedIndex = [_collection indexOfObject:i];  // Store the selected index for dragging :)
             break;
         }
     }
@@ -534,11 +573,35 @@
     NSUInteger row = [indexPath row];
     cell.textLabel.text = [_fileSaveArray objectAtIndex:row];
     return cell;
-
 }
 
-- (void)setupFileSaveArray {
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return @"Saved files";
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {    
+    if (_saveFileTableView.editing == NO || !indexPath) return UITableViewCellEditingStyleNone;
     
+    /*if (_saveFileTableView.editing && indexPath.row == ([arry count])) {        
+        return UITableViewCellEditingStyleInsert;        
+    }
+    else {        
+        return UITableViewCellEditingStyleDelete;        
+    }*/
+    
+    return UITableViewCellEditingStyleDelete;    
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(editingStyle == UITableViewCellEditingStyleDelete) {
+        [self deleteFileWithFilename:[_fileSaveArray objectAtIndex:indexPath.row]];
+        [_fileSaveArray removeObjectAtIndex:indexPath.row];
+        [_saveFileTableView reloadData];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"Row %d selected", indexPath.row);
 }
 
 #pragma mark - Alert
@@ -557,14 +620,21 @@
     if(alertView.tag ==0 && buttonIndex == 1) {
         NSLog(@"0");
         [_collection removeAllObjects];
-        cleared = TRUE;
+        skipDrawingCurrentShape = TRUE;
         [self drawShapes];
-        cleared = FALSE;
     }
     
     if(alertView.tag == 1 && buttonIndex == 1) {
-        NSLog(@"1:%@", [alertView textFieldAtIndex:0].text);
-        [self saveDataToDisk];
+        NSString *filename = [alertView textFieldAtIndex:0].text;
+        NSLog(@"1:%@", filename);
+        
+        if([filename isEqualToString:@""]) {
+            return;
+        }
+        
+        [self saveDataToDiskWithFilename:filename];
+        [_saveFileTableView reloadData];
+        [_saveFileTableView setNeedsDisplay];
     }
 }
 
@@ -630,5 +700,12 @@
             i.hidden = TRUE;
         }
     }
+}
+
+- (IBAction)loadButtonPressed:(id)sender {
+    [self setupFileSaveArray];
+    [_saveFileTableView reloadData];
+    [_saveFileTableView setNeedsDisplay];
+    _saveFileTableView.hidden = !_saveFileTableView.hidden;
 }
 @end

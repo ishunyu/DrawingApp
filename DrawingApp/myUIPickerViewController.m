@@ -58,13 +58,13 @@
 }
 
 #pragma mark - touch events
--(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+/*-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     UIView * temp = [super hitTest:point withEvent:event];
     //NSLog(@"HERE");
     if(temp != NULL)
         self.alpha = 1.0f;
     return temp;
-}
+}*/
 
 
 @end

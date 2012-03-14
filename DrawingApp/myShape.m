@@ -56,9 +56,6 @@
 
 - (id)copyWithZone:(NSZone *)zone {
     myShape *c = [[myShape alloc] initCopy:self];
-    if(c) {
-        return c;
-    }
     return c;
 }
 
@@ -66,7 +63,7 @@
     self = [[myShape alloc] init];
     if(self) {
         _startPoint = [aDecoder decodeCGPointForKey:@"startPoint"];
-        _endPoint = [aDecoder decodeCGPointForKey:@"_endPoint"];
+        _endPoint = [aDecoder decodeCGPointForKey:@"endPoint"];
         _color = [aDecoder decodeIntegerForKey:@"color"];
         _selected = [aDecoder decodeBoolForKey:@"selected"];
         _isDashed = [aDecoder decodeBoolForKey:@"isDashed"];
