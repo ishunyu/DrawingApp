@@ -60,6 +60,7 @@
 - (void)saveDataToDiskWithFilename:(NSString *) filename;
 - (void)deleteFileWithFilename:(NSString *) filename;
 - (void)loadDataFromDiskWithFilename:(NSString *) filename;
+- (NSString *)checkIfFileExists:(NSString *) filename;
 @end
 
 // Start implementation
@@ -125,6 +126,13 @@
     if(_collection == nil) {
         _collection = [[NSMutableArray alloc] init];
     }
+    
+    [self loadDataFromDiskWithFilename:@""];
+    
+    UIApplication *app = [UIApplication sharedApplication];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillResignActive:) 
+                                                 name:UIApplicationWillResignActiveNotification object:app];
    
 }
 
@@ -169,6 +177,10 @@
     return YES;
 }
 
+-(void)applicationWillResignActive:(UIApplication *)application {
+    [self saveDataToDiskWithFilename:@""];
+}
+
 #pragma mark - drawing functions
 
 - (void)drawShapes {
@@ -197,7 +209,6 @@
       
     if(!skipDrawingCurrentShape && (selectedIndex == -1)) {
         [self drawShapesSubroutine:_currentShape contextRef:context];
-        skipDrawingCurrentShape = FALSE;
     }
     _drawingPad.image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
@@ -209,7 +220,7 @@
     
     // Setting the dashed parameter
     if(shapeToBeDrawn.isDashed == true){
-        float num[] = {6.0f+shapeToBeDrawn.lineWidth/4.0f, 6.0f+shapeToBeDrawn.lineWidth/4.0f};
+        float num[] = {10.0f, 10.0f};
         CGContextSetLineDash(context, 0.0, num, 2); 
     }
     else {
@@ -302,7 +313,7 @@
     {
         [fileManager createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:nil];
     }
-    
+    //NSLog(@"%@", [folder stringByAppendingPathComponent:[filename stringByAppendingString:_fileExtension]]);
     return [folder stringByAppendingPathComponent:[filename stringByAppendingString:_fileExtension]];
 }
 
@@ -338,7 +349,7 @@
 
 - (void)deleteFileWithFilename:(NSString *) filename {
     NSString *path = [self pathForDataFileWithFilename:filename];
-    NSLog(@"%@",path);
+    //NSLog(@"%@",path);
     
     [[NSFileManager defaultManager] removeItemAtPath:path error:nil];    
 }
@@ -347,7 +358,6 @@
     NSArray *temp = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self pathForDataFileWithFilename:nil]
                                                                         error:nil];
     [_fileSaveArray removeAllObjects];
-    [_fileSaveArray addObject:@""];
     for(NSString *i in temp) {
         //NSLog(@"%@", [i stringByReplacingOccurrencesOfString:_fileExtension withString:@""]);
         if([i isEqualToString:_fileExtension] == YES) {
@@ -357,15 +367,20 @@
     }
 }
 
-- (void) applicationWillTerminate: (NSNotification *)note
-{
-    [self saveDataToDiskWithFilename:@"lastSave"];
+- (NSString *)checkIfFileExists:(NSString *) filename {
+    for(NSString *i in _fileSaveArray) {
+        if([i isEqualToString:filename]) {
+            return [self checkIfFileExists:[filename stringByAppendingString:@"(1)"]];
+        }
+    }
+    
+    return filename;
 }
 
 #pragma mark - touch interface
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"In touchesBegan!");
+    //NSLog(@"In touchesBegan!");
     
     // Receiving the touch event
     UITouch *touch = [touches anyObject];
@@ -420,7 +435,7 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"In touchesEnded!");
+    //NSLog(@"In touchesEnded!");
     
     // Receiving the touch event
     UITouch *touch = [touches anyObject];
@@ -435,14 +450,14 @@
         // Setting properties
         _currentShape.endPoint = CGPointMake(tempPoint.x, tempPoint.y);
         
-        if(selectedIndex == -1){
+        if(selectedIndex == -1){    // New shape object!
             [self setCurrentShapeProperties];
             [_collection addObject: [[myShape alloc] initCopy:_currentShape]];
         }
-        else {
+        else {  // Dragged an already made shape
             float dx = _currentShape.endPoint.x - _currentShape.startPoint.x,
             dy = _currentShape.endPoint.y - _currentShape.startPoint.y;
-            NSLog(@"(%f,%f)", dx, dy);
+            //NSLog(@"(%f,%f)", dx, dy);
             myShape *obj = [_collection objectAtIndex:selectedIndex];
             obj.startPoint = CGPointMake(savedShapeStartpoint.x + dx, savedShapeStartpoint.y + dy);
             obj.endPoint = CGPointMake(savedShapeEndpoint.x + dx, savedShapeEndpoint.y + dy);
@@ -450,8 +465,10 @@
         [self drawShapes];
     }
     else {  // Tap
-        skipDrawingCurrentShape = true;
+        skipDrawingCurrentShape = TRUE;
         [self selectShapeOnScreen:(CGPoint) tempPoint];
+        _saveFileTableView.hidden = TRUE;
+        skipDrawingCurrentShape = FALSE;
     }
 }
 
@@ -569,12 +586,7 @@
     }
     
     NSUInteger row = [indexPath row];
-    if(row == 0) {
-        cell.textLabel.text = @"<-- last";
-    }
-    else {
-        cell.textLabel.text = [_fileSaveArray objectAtIndex:row];
-    }   
+    cell.textLabel.text = [_fileSaveArray objectAtIndex:row];
     
     return cell;
 }
@@ -584,9 +596,6 @@
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {    
-    if(indexPath.row == 0) {
-        return UITableViewCellEditingStyleNone;
-    }
     
     return UITableViewCellEditingStyleDelete;    
 }
@@ -600,15 +609,15 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"Row %d selected", indexPath.row);
-    NSLog(@"Last save: %@", [self pathForDataFileWithFilename:@""]);
-    if(!currentSaved) {
-        [self saveDataToDiskWithFilename:@""];
-        currentSaved = TRUE;
-    }
-    [self loadDataFromDiskWithFilename:[_fileSaveArray objectAtIndex:indexPath.row]];
-    skipDrawingCurrentShape = TRUE;
-    [self drawShapes];
+    //NSLog(@"Row %d selected", indexPath.row);
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[@"Load " stringByAppendingString:[_fileSaveArray objectAtIndex:indexPath.row]]
+                                                    message:@"Your current drawing will be gone!" 
+                                                   delegate:self 
+                                          cancelButtonTitle:@"NOOO!"
+                                          otherButtonTitles:@"YES PLZ!", nil];
+    alert.tag = 2;
+    [alert show];
 }
 
 #pragma mark - Alert
@@ -624,24 +633,35 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(alertView.tag ==0 && buttonIndex == 1) {
-        NSLog(@"0");
+    if(alertView.tag ==0 && buttonIndex == 1) { // Clear
+        //NSLog(@"0");
         [_collection removeAllObjects];
         skipDrawingCurrentShape = TRUE;
         [self drawShapes];
+        skipDrawingCurrentShape = FALSE;
     }
     
-    if(alertView.tag == 1 && buttonIndex == 1) {
+    if(alertView.tag == 1 && buttonIndex == 1) {    // Save
         NSString *filename = [alertView textFieldAtIndex:0].text;
-        NSLog(@"1:%@", filename);
+        //NSLog(@"1:%@", filename);
         
         if([filename isEqualToString:@""]) {
             return;
         }
         
-        [self saveDataToDiskWithFilename:filename];
+        [self saveDataToDiskWithFilename:[self checkIfFileExists:filename]];
+        [self setupFileSaveArray];
         [_saveFileTableView reloadData];
         [_saveFileTableView setNeedsDisplay];
+    }
+    
+    if(alertView.tag == 2 && buttonIndex == 1) {
+        NSString *filename = [alertView.title stringByReplacingOccurrencesOfString:@"Load " withString:@""];
+        
+        [self loadDataFromDiskWithFilename:filename];
+        skipDrawingCurrentShape = TRUE;
+        [self drawShapes];    
+        skipDrawingCurrentShape = FALSE;
     }
 }
 
@@ -690,7 +710,7 @@
 }
 
 - (IBAction)doubleTappedInDrawingPad:(id)sender {
-    NSLog(@"Double Tapped! :D");
+    //NSLog(@"Double Tapped! :D");
     
     if(_shapeSelector.hidden) { // Controls are currently hidden
         for(UIView *i in _drawingPad.subviews) {
@@ -716,7 +736,7 @@
 }
 
 - (IBAction)loadButtonPressed:(id)sender {
-    currentSaved = FALSE;
+    //currentSaved = FALSE;
     [self setupFileSaveArray];
     [_saveFileTableView reloadData];
     [_saveFileTableView setNeedsDisplay];
