@@ -12,6 +12,7 @@
 @interface ECS189DrawingViewController() {
     bool skipDrawingCurrentShape;
     bool savedColorPickerHiddenState;
+    bool currentSaved;
     NSInteger selectedIndex;
     NSInteger savedLineWidthValue;
     BOOL savedDashedState;
@@ -96,6 +97,7 @@
     _fileSaveArray = [[NSMutableArray alloc] init];
     
     skipDrawingCurrentShape = FALSE;
+    currentSaved = FALSE;
     selectedIndex = -1;
     savedShapeStartpoint = CGPointMake(0, 0);
     savedShapeEndpoint = CGPointMake(0, 0);
@@ -301,12 +303,7 @@
         [fileManager createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:nil];
     }
     
-    if(filename) {
-        return [folder stringByAppendingPathComponent:[filename stringByAppendingString:_fileExtension]];
-    }
-    else {
-        return folder;
-    }
+    return [folder stringByAppendingPathComponent:[filename stringByAppendingString:_fileExtension]];
 }
 
 - (void) saveDataToDiskWithFilename:(NSString *)filename {
@@ -350,6 +347,7 @@
     NSArray *temp = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self pathForDataFileWithFilename:nil]
                                                                         error:nil];
     [_fileSaveArray removeAllObjects];
+    [_fileSaveArray addObject:@""];
     for(NSString *i in temp) {
         //NSLog(@"%@", [i stringByReplacingOccurrencesOfString:_fileExtension withString:@""]);
         if([i isEqualToString:_fileExtension] == YES) {
@@ -571,7 +569,13 @@
     }
     
     NSUInteger row = [indexPath row];
-    cell.textLabel.text = [_fileSaveArray objectAtIndex:row];
+    if(row == 0) {
+        cell.textLabel.text = @"<-- last";
+    }
+    else {
+        cell.textLabel.text = [_fileSaveArray objectAtIndex:row];
+    }   
+    
     return cell;
 }
 
@@ -580,14 +584,9 @@
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {    
-    if (_saveFileTableView.editing == NO || !indexPath) return UITableViewCellEditingStyleNone;
-    
-    /*if (_saveFileTableView.editing && indexPath.row == ([arry count])) {        
-        return UITableViewCellEditingStyleInsert;        
+    if(indexPath.row == 0) {
+        return UITableViewCellEditingStyleNone;
     }
-    else {        
-        return UITableViewCellEditingStyleDelete;        
-    }*/
     
     return UITableViewCellEditingStyleDelete;    
 }
@@ -602,6 +601,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"Row %d selected", indexPath.row);
+    NSLog(@"Last save: %@", [self pathForDataFileWithFilename:@""]);
+    if(!currentSaved) {
+        [self saveDataToDiskWithFilename:@""];
+        currentSaved = TRUE;
+    }
+    [self loadDataFromDiskWithFilename:[_fileSaveArray objectAtIndex:indexPath.row]];
+    skipDrawingCurrentShape = TRUE;
+    [self drawShapes];
 }
 
 #pragma mark - Alert
@@ -691,18 +698,25 @@
                 i.hidden = savedColorPickerHiddenState;
                 continue;
             }
+            if(i == _saveFileTableView) {
+                continue;
+            }
             i.hidden = FALSE;
         }        
     }
     else { // Controls are currently being shown
         savedColorPickerHiddenState = _colorPicker.hidden;
         for(UIView *i in _drawingPad.subviews) {
+            if(i == _saveFileTableView) {
+                continue;
+            }
             i.hidden = TRUE;
         }
     }
 }
 
 - (IBAction)loadButtonPressed:(id)sender {
+    currentSaved = FALSE;
     [self setupFileSaveArray];
     [_saveFileTableView reloadData];
     [_saveFileTableView setNeedsDisplay];
