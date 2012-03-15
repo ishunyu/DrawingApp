@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CE4C9E4E150D0BE200B0B5BE /* icon_line.png in Resources */ = {isa = PBXBuildFile; fileRef = CE4C9E4D150D0BE200B0B5BE /* icon_line.png */; };
+		CE83D2E41511CA7C00736C5A /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE83D2E31511CA7C00736C5A /* app_icon.png */; };
 		CE866413150CB6B70068025E /* icon_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = CE866410150CB6B70068025E /* icon_circle.png */; };
 		CE866415150CB6B70068025E /* icon_rectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = CE866412150CB6B70068025E /* icon_rectangle.png */; };
 		CEB2444614E7BA5000A41818 /* myShape.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB2444514E7BA5000A41818 /* myShape.m */; };
@@ -20,12 +21,12 @@
 		CEB3DF1814E759630053BEF0 /* ECS189DrawingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB3DF1714E759630053BEF0 /* ECS189DrawingViewController.m */; };
 		CEB3DF1B14E759630053BEF0 /* ECS189DrawingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEB3DF1914E759630053BEF0 /* ECS189DrawingView.xib */; };
 		CEB76BE515077533001475EC /* myUIPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB76BE415077533001475EC /* myUIPickerViewController.m */; };
-		CEF34979150EEC7000110AA2 /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF34978150EEC7000110AA2 /* app_icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CE4C9E4D150D0BE200B0B5BE /* icon_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_line.png; sourceTree = "<group>"; };
 		CE4C9E4F150D10EB00B0B5BE /* ECS189VectorMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECS189VectorMath.h; sourceTree = "<group>"; };
+		CE83D2E31511CA7C00736C5A /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon.png; sourceTree = "<group>"; };
 		CE866410150CB6B70068025E /* icon_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_circle.png; sourceTree = "<group>"; };
 		CE866412150CB6B70068025E /* icon_rectangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_rectangle.png; sourceTree = "<group>"; };
 		CEB2444414E7BA5000A41818 /* myShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myShape.h; sourceTree = "<group>"; };
@@ -45,7 +46,6 @@
 		CEB3DF1A14E759630053BEF0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ECS189DrawingView.xib; sourceTree = "<group>"; };
 		CEB76BE315077532001475EC /* myUIPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myUIPickerViewController.h; sourceTree = "<group>"; };
 		CEB76BE415077533001475EC /* myUIPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myUIPickerViewController.m; sourceTree = "<group>"; };
-		CEF34978150EEC7000110AA2 /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = app_icon.png; path = ../../app_icon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,10 +65,10 @@
 		CE86640F150CB6B70068025E /* images */ = {
 			isa = PBXGroup;
 			children = (
+				CE83D2E31511CA7C00736C5A /* app_icon.png */,
 				CE4C9E4D150D0BE200B0B5BE /* icon_line.png */,
 				CE866410150CB6B70068025E /* icon_circle.png */,
 				CE866412150CB6B70068025E /* icon_rectangle.png */,
-				CEF34978150EEC7000110AA2 /* app_icon.png */,
 			);
 			path = images;
 			sourceTree = "<group>";
@@ -185,7 +185,7 @@
 				CE866413150CB6B70068025E /* icon_circle.png in Resources */,
 				CE866415150CB6B70068025E /* icon_rectangle.png in Resources */,
 				CE4C9E4E150D0BE200B0B5BE /* icon_line.png in Resources */,
-				CEF34979150EEC7000110AA2 /* app_icon.png in Resources */,
+				CE83D2E41511CA7C00736C5A /* app_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
