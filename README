@@ -1,0 +1,22 @@
+--- BASIC SETUP ---
+You can start up the DrawingApp application by opening the project file "DrawingApp.xcodeproj" from a MAC operating system with xcode installed and running the project.
+
+NOTE: The project is to be run on an iOS5 iPad!
+
+--- GET STARTED ---
+Once opened, you can select a type of shape to draw.
+Some of the settings you can set are shapes, line width, dashed/non-dashed, color.
+
+Once you have anything drawn on the screen, you can tap the shape to select it.
+Once selected, the shape can change its attributes such as shapes, line width, dashed/non-dashed, and color.
+
+One of the extra features that I implemented is that once a shape is selected, the user can use their finger to drag the shape around, ALSO, the user can decide to delete the shape if needed.
+
+The entire screen can be cleared as well.
+
+--- SAVE/LOAD ---
+Press the save button to display a prompt asking you for a file name, if the file name is blank, then the file won't be saved. If the file name is a duplicate of an existing file, then extra letters will be tacked on to make sure there's no overwrites.
+
+Press the load button to show a list of existing drawings, pressing a row will prompt the user to load.
+
+When the user press the home button, or terminate the task from the multi-tasking menu bar, the current drawing will be saved. So nothing in essense should be lost. 
